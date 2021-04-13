@@ -1,33 +1,37 @@
-let cards, pexesoContainer, cardsRandomized;
+let cards, cards2, pexesoContainer;
 
 let onloadFun = function () {
 
     pexesoContainer = document.getElementById("pexesoContainer")
     cards = ["😂", "🥰", "🤔", "🙂", "😍", "😎", "🤩", "😃"]
-
-    cards = doubleArray(cards);
+    cards2 = cards.length;
+    doubleArray(cards);
+    randomize(cards);
     addCards();
-    cardsRandomized = randomize(cards);
+
 }
 
 let doubleArray = function (cards) {
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < cards2; i++) {
         cards.push(cards[i])
     }
     return cards;
 }
 
-let randomize = function (cards) {
-    let rand = Math.floor(Math.random() * 16);
+let randomize = function (cards2) {
 
     for (let i = 0; i < cards.length; i++) {
-        cards[5] = cardsRandomized[i]
+        let rand = Math.floor(Math.random() * 16);
+
+        let a = cards[i];
+        cards[i] = cards[rand];
+        cards[rand] = a;
     }
-    return cardsRandomized;
+    return cards2;
 }
 
 let addCards = function () {
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < cards.length; i++) {
         let div = document.createElement('div')
         div.innerText = cards[i]
 
