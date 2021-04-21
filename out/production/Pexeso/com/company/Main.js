@@ -1,4 +1,5 @@
 let cards, cards2, pexesoContainer, div, div2;
+
 let onloadFun = function () {
 
     pexesoContainer = document.getElementById("pexesoContainer")
@@ -6,9 +7,10 @@ let onloadFun = function () {
     cards2 = cards.length;
     doubleArray(cards);
     randomize(cards);
+    generateDivs2();
     addCards();
-}
 
+}
 let doubleArray = function (cards) {
     for (let i = 0; i < cards2; i++) {
         cards.push(cards[i])
@@ -26,37 +28,25 @@ let randomize = function (cards2) {
     return cards2;
 }
 
-let createDivCon = function () {
-    divCon = document.createElement('div')
-    pexesoContainer.appendChild(divCon)
-}
-let generateDivs2 = function () {
-    div2 = document.createElement('div')
-    div2.style.backgroundColor = "#720000"
-    div2.style.position = "relative"
-
-    divCon.appendChild(div2)
-}
 let addCards = function () {
-
     for (let i = 0; i < cards.length; i++) {
-        divCon = document.createElement('div')
-        pexesoContainer.appendChild(divCon)
-
         div = document.createElement('div')
         div.innerText = cards[i]
-        div.style.position = "absolute"
+        div.style.position = "relative"
+        pexesoContainer.appendChild(div)
 
-        divCon.appendChild(div)
+    }
+}
+let generateDivs2 = function () {
+    for (let i = 0; i < cards.length; i++) {
         div2 = document.createElement('div')
         div2.style.backgroundColor = "#720000"
         div2.style.position = "relative"
 
-        divCon.appendChild(div2)
+        div2.addEventListener("click",showCard)
+        pexesoContainer.appendChild(div2)
     }
 }
-let show = function (){
-    div2.style.display = "none"
-}
+
 
 window.onload = onloadFun;
