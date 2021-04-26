@@ -1,4 +1,11 @@
 let cards, cards2, pexesoContainer, div, div2;
+let divCon;
+let smajliciVPoli = [];
+let prekryvaciDiv = [];
+let smajl = [];
+let counter = 0;
+let good = [];
+
 let onloadFun = function () {
 
     pexesoContainer = document.getElementById("pexesoContainer")
@@ -26,37 +33,53 @@ let randomize = function (cards2) {
     return cards2;
 }
 
-let createDivCon = function () {
-    divCon = document.createElement('div')
-    pexesoContainer.appendChild(divCon)
-}
-let generateDivs2 = function () {
-    div2 = document.createElement('div')
-    div2.style.backgroundColor = "#720000"
-    div2.style.position = "relative"
 
-    divCon.appendChild(div2)
-}
 let addCards = function () {
-
     for (let i = 0; i < cards.length; i++) {
-        divCon = document.createElement('div')
-        pexesoContainer.appendChild(divCon)
+        divCon = document.createElement('div');
+        pexesoContainer.appendChild(divCon);
 
-        div = document.createElement('div')
-        div.innerText = cards[i]
-        div.style.position = "absolute"
+        div = document.createElement('div'); // Přidání smajlíků
+        div.innerText = cards[i];
 
-        divCon.appendChild(div)
-        div2 = document.createElement('div')
-        div2.style.backgroundColor = "#720000"
-        div2.style.position = "relative"
+        smajliciVPoli[i] = div.innerText;
 
-        divCon.appendChild(div2)
+        div.style.position = "absolute";
+        divCon.appendChild(div);
+
+        div2 = document.createElement('div'); // Přidání překrytí
+        div2.style.backgroundColor = "#720000";
+        div2.style.position = "relative";
+        divCon.appendChild(div2);
+        prekryvaciDiv[i] = div2;
+
+        div2.addEventListener("click", show);
     }
 }
-let show = function (){
-    div2.style.display = "none"
+
+let show = function (e) {
+    e.target.style.display = "none";
+    for (let i = 0; i < 16; i++) {
+        if (e.target === prekryvaciDiv[i]) {
+            smajl.push(smajliciVPoli[i])
+            console.log(i)
+            counter++;
+        }
+    }
+
+    if (counter === 1){
+        if (smajl[0] === smajl[1]) {
+            good.push(smajl[0], smajl[1])
+            console.log("rovná")
+        } else{
+            let shownt = function () {
+                e.target.style.display = "block";
+            }
+            setTimeout(shownt, 2000);
+        }
+        counter = 0;
+        smajl = [];
+    }
 }
 
 window.onload = onloadFun;
