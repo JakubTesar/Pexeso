@@ -5,15 +5,28 @@ let prekryvaciDiv = [];
 let smajl = [];
 let counter = 0;
 let good = [];
+let targetArr = [];
+let resBut;
+let span;
+let modal;
+let divs1 = [];
+let divConArr = [];
 
 let onloadFun = function () {
 
     pexesoContainer = document.getElementById("pexesoContainer")
     cards = ["😂", "🥰", "🤔", "🙂", "😍", "😎", "🤩", "😃"]
     cards2 = cards.length;
+    resBut = document.getElementById("resetButton");
+    span = document.getElementsByClassName("close")[0];
+    modal = document.getElementById("myModal");
+
     doubleArray(cards);
     randomize(cards);
     addCards();
+
+    resBut.addEventListener("click", reset)
+    span.addEventListener("click", modalNone)
 }
 
 let doubleArray = function (cards) {
@@ -33,14 +46,15 @@ let randomize = function (cards2) {
     return cards2;
 }
 
-
 let addCards = function () {
     for (let i = 0; i < cards.length; i++) {
         divCon = document.createElement('div');
+        divConArr[i] = divCon;
         pexesoContainer.appendChild(divCon);
 
         div = document.createElement('div'); // Přidání smajlíků
         div.innerText = cards[i];
+        divs1[i] = div;
 
         smajliciVPoli[i] = div.innerText;
 
@@ -56,30 +70,52 @@ let addCards = function () {
         div2.addEventListener("click", show);
     }
 }
-
 let show = function (e) {
     e.target.style.display = "none";
-    for (let i = 0; i < 16; i++) {
+    targetArr.push(e.target);
+
+    for (let i = 0; i < cards.length; i++) {
         if (e.target === prekryvaciDiv[i]) {
             smajl.push(smajliciVPoli[i])
-            console.log(i)
+            console.log(smajl[0], smajl[1])
             counter++;
         }
     }
-
-    if (counter === 1){
+    if (counter === 2) {
         if (smajl[0] === smajl[1]) {
             good.push(smajl[0], smajl[1])
-            console.log("rovná")
-        } else{
-            let shownt = function () {
-                e.target.style.display = "block";
-            }
-            setTimeout(shownt, 2000);
+            targetArr = [];
         }
         counter = 0;
+        let shownt = function () {
+            targetArr[0].style.display = "block"
+            targetArr[1].style.display = "block"
+            targetArr = [];
+        }
+        if (smajl[0] !== smajl[1]) {
+            setTimeout(shownt, 1000);
+        }
         smajl = [];
+        counter = 0;
+    }
+
+    if (good.length === cards.length) {
+        modal.style.display = "block"
     }
 }
+let modalNone = function () {
+    modal.style.display = "none";
+}
+
+let reset = function () {
+    for (let i = 0; i < cards.length; i++) {
+        divs1[i].remove();
+        prekryvaciDiv[i].remove();
+        divConArr[i].remove();
+    }
+    randomize(cards);
+    addCards()
+}
+
 
 window.onload = onloadFun;
